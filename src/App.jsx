@@ -28,7 +28,7 @@ function App() {
       <div className="card container p-20">
         <h1 className="mb-20">Liste des clients</h1>
         <AddClient addClient={addClient} />
-        <ClientList />
+        <ClientList clientList={clientList} />
       </div>
     </div>
   )

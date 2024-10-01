@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 function AddClient({ addClient }) {
 
@@ -115,5 +116,10 @@ function AddClient({ addClient }) {
     );
 
 }
+
+AddClient.propTypes = {
+    addClient: PropTypes.func.isRequired
+};
+
 
 export default AddClient;
