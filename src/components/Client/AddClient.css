@@ -1,0 +1,28 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px; /* Espace entre les champs */
+    width: 100%; /* S'assurer que le groupe de formulaire prend toute la largeur */
+}
+
+.form-label {
+    margin-right: 10px; /* Espace entre le label et l'input */
+    font-weight: bold; /* Optionnel : pour mettre le label en gras */
+}
+
+input {
+    border-radius: 8px; /* Arrondir les coins */
+    border: 1px solid #ccc; /* Couleur de la bordure */
+    padding: 10px; /* Espacement intérieur */
+    width: 100%; /* Pour que les inputs prennent toute la largeur de leur conteneur */
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+}
+
