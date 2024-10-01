@@ -21,14 +21,16 @@ function App() {
     setClientList([...clientList, client]);
   }
 
-
+  function deleteClient(id) {
+    setClientList(clientList.filter(client => client.id !== id));
+  }
 
   return (
     <div className="d-flex flex-row justify-content-center align-items-center p-20">
       <div className="card container p-20">
         <h1 className="mb-20">Liste des clients</h1>
         <AddClient addClient={addClient} />
-        <ClientList clientList={clientList} />
+        <ClientList clientList={clientList} deleteClient={deleteClient} />
       </div>
     </div>
   )
