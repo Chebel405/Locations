@@ -44,14 +44,6 @@ function AddClient({ addClient }) {
                 phone: ''
             });
         }
-
-        // function handleClick() {
-        //     if (clientData.length) {
-        //         EditClient(clientData);
-        //         setClientData('');
-        //     }
-        // }
-
     }
 
 

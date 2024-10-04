@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
 
 
 function EditClient({ client, editClient, cancelClient }) {
-
+    /* État local pour stocker les données du client à modifier*/
     const [clientData, setClientData] = useState({
         name: '',
         lastName: '',
@@ -11,6 +12,12 @@ function EditClient({ client, editClient, cancelClient }) {
         phone: ''
     });
 
+
+    /**
+     *  useEffect est utilisé pour remplir les données
+     *  du client lorsque ce composant est monté ou lorsque
+     *  l'objet client change.
+     */
     useEffect(() => {
         if (client) {
             setClientData({
@@ -23,6 +30,11 @@ function EditClient({ client, editClient, cancelClient }) {
         }
     }, [client]);
 
+
+    /**
+    * Met à jour l'état avec les nouvelles valeurs saisies dans les champs d'input.
+    * @param {Object} e - L'événement de changement sur l'input.
+    */
     function handleChange(e) {
         const { name, value } = e.target;
         setClientData({
@@ -32,7 +44,10 @@ function EditClient({ client, editClient, cancelClient }) {
     }
 
 
-
+    /**
+     * Gère l'appui sur la touche "Enter" pour déclencher la validation des données en appelant handleEditClient.
+     * @param {Object} e - L'événement de clavier sur l'input.
+     */
     function handleKeyDown(e) {
         if (e.code === "Enter") {
             e.preventDefault();
@@ -40,6 +55,9 @@ function EditClient({ client, editClient, cancelClient }) {
         }
     }
 
+    /**
+     * Applique les modifications faites sur le client en appelant la fonction editClient avec les nouvelles données.
+     */
     function handleEditClient() {
         editClient(clientData);
         setClientData({
@@ -51,10 +69,13 @@ function EditClient({ client, editClient, cancelClient }) {
         });
     }
 
+
+    /**
+     * Annule la modification en appelant la fonction cancelClient.
+     */
     function handleCancel() {
         cancelClient();
     }
-
 
 
     return (
@@ -137,6 +158,12 @@ function EditClient({ client, editClient, cancelClient }) {
     );
 
 }
+
+EditClient.propTypes = {
+    client: PropTypes.object.isRequired,
+    editClient: PropTypes.func.isRequired,
+    cancelClient: PropTypes.func.isRequired
+};
 
 
 export default EditClient;
