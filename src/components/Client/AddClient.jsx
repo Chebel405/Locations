@@ -6,7 +6,7 @@ import './AddClient.css';
 
 
 function AddClient({ addClient }) {
-
+    /* État local pour stocker les données du client*/
     const [clientData, setClientData] = useState({
         name: '',
         lastName: '',
@@ -15,6 +15,10 @@ function AddClient({ addClient }) {
         phone: ''
     });
 
+    /**
+     * Met à jour les données du client lorsque l'utilisateur modifie un champ.
+     * @param {Object} e - L'événement de changement du champ.
+     */
     function handleChange(e) {
         const { name, value } = e.target;
         console.log(e);
@@ -24,8 +28,11 @@ function AddClient({ addClient }) {
         });
     }
 
-
-
+    /**
+     * Gère l'événement de pression d'une touche sur les champs de saisie.
+     * Si la touche "Enter" est pressée, ajoute le client.
+     * @param {Object} e - L'événement de pression de touche.
+     */
     function handleKeyDown(e) {
         if (e.code === "Enter") {
             e.preventDefault();
@@ -35,8 +42,8 @@ function AddClient({ addClient }) {
                 clientData.birthday,
                 clientData.email,
                 clientData.phone
-            );
-            setClientData({
+            ); /*Appelle la fonction addClient avec les données du client*/
+            setClientData({ /* Réinitialise les données du client après ajout*/
                 name: '',
                 lastName: '',
                 birthday: '',
@@ -110,6 +117,7 @@ function AddClient({ addClient }) {
                 />
             </div>
 
+            {/* Bouton pour ajouter le client avec les données saisies */}
             <button
                 onClick={() => {
                     addClient(
@@ -118,8 +126,8 @@ function AddClient({ addClient }) {
                         clientData.birthday,
                         clientData.email,
                         clientData.phone
-                    );
-                    setClientData({
+                    ); /* Appelle la fonction addClient avec les données du client*/
+                    setClientData({ /* Réinitialise les données du client après ajout*/
                         name: '',
                         lastName: '',
                         birthday: '',

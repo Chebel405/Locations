@@ -1,5 +1,14 @@
 import PropTypes from 'prop-types';
 
+
+/**
+ * Composant ClientItem qui affiche les informations d'un client.
+ * @param {Object} props - Les props du composant.
+ * @param {Object} props.client - Les données du client à afficher.
+ * @param {Function} props.deleteClient - Fonction pour supprimer un client.
+ * @param {Function} props.modifyClient - Fonction pour modifier les informations d'un client.
+ * @returns {JSX.Element} Un élément de liste représentant un client.
+ */
 function ClientItem({ client, deleteClient, modifyClient }) {
     return (
         <li className="d-flex flex-row justify-content-center align-items-center p-10">
