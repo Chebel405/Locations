@@ -4,6 +4,7 @@ import './AddClient.css';
 
 
 
+
 function AddClient({ addClient }) {
 
     const [clientData, setClientData] = useState({
@@ -43,6 +44,13 @@ function AddClient({ addClient }) {
                 phone: ''
             });
         }
+
+        // function handleClick() {
+        //     if (clientData.length) {
+        //         EditClient(clientData);
+        //         setClientData('');
+        //     }
+        // }
 
     }
 
