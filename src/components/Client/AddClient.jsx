@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom";
 import './AddClient.css';
 
 
@@ -14,6 +15,9 @@ function AddClient({ addClient }) {
         email: '',
         phone: ''
     });
+
+    //Permet de faire une redirection
+    const navigate = useNavigate();
 
     /**
      * Met à jour les données du client lorsque l'utilisateur modifie un champ.
@@ -36,21 +40,26 @@ function AddClient({ addClient }) {
     function handleKeyDown(e) {
         if (e.code === "Enter") {
             e.preventDefault();
-            addClient(
-                clientData.name,
-                clientData.lastName,
-                clientData.birthday,
-                clientData.email,
-                clientData.phone
-            ); /*Appelle la fonction addClient avec les données du client*/
-            setClientData({ /* Réinitialise les données du client après ajout*/
-                name: '',
-                lastName: '',
-                birthday: '',
-                email: '',
-                phone: ''
-            });
+            handleAddClient();
         }
+    }
+
+    function handleAddClient() {
+        addClient(
+            clientData.name,
+            clientData.lastName,
+            clientData.birthday,
+            clientData.email,
+            clientData.phone
+        );
+        setClientData({
+            name: '',
+            lastName: '',
+            birthday: '',
+            email: '',
+            phone: ''
+        });
+        navigate('/clients');
     }
 
 
@@ -119,22 +128,7 @@ function AddClient({ addClient }) {
 
             {/* Bouton pour ajouter le client avec les données saisies */}
             <button
-                onClick={() => {
-                    addClient(
-                        clientData.name,
-                        clientData.lastName,
-                        clientData.birthday,
-                        clientData.email,
-                        clientData.phone
-                    ); /* Appelle la fonction addClient avec les données du client*/
-                    setClientData({ /* Réinitialise les données du client après ajout*/
-                        name: '',
-                        lastName: '',
-                        birthday: '',
-                        email: '',
-                        phone: ''
-                    });
-                }}
+                onClick={handleAddClient}
                 className="btn btn-primary"
             >
                 Ajouter
