@@ -44,6 +44,11 @@ function AddClient({ addClient }) {
         }
     }
 
+    /**
+     * Gère l'ajout d'un nouveau client en utilisant les données du formulaire.
+     * Ajoute le client à la liste, réinitialise le formulaire, 
+     * puis redirige vers la page de la liste des clients.
+     */
     function handleAddClient() {
         addClient(
             clientData.name,
@@ -66,7 +71,6 @@ function AddClient({ addClient }) {
     return (
         <div className="d-flex flex-column align-items-start form-container ">
             <div className="form-group">
-                <div className="form-label">Nom:</div>
                 <input
                     type="text"
                     name="name"
@@ -78,7 +82,7 @@ function AddClient({ addClient }) {
                 />
             </div>
             <div className="form-group">
-                <div className="form-label">Prénom:</div>
+
                 <input
                     type="text"
                     name="lastName"
@@ -90,7 +94,7 @@ function AddClient({ addClient }) {
                 />
             </div>
             <div className="form-group">
-                <div className="form-label">Date de naissance:</div>
+
                 <input
                     type="date"
                     name="birthday"
@@ -102,7 +106,7 @@ function AddClient({ addClient }) {
                 />
             </div>
             <div className="form-group">
-                <div className="form-label">Email:</div>
+
                 <input
                     type="email"
                     name="email"
@@ -114,7 +118,7 @@ function AddClient({ addClient }) {
                 />
             </div>
             <div className="form-group">
-                <div className="form-label">Téléphone:</div>
+
                 <input
                     type="text"
                     name="phone"

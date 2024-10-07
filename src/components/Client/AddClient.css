@@ -1,28 +1,45 @@
 .form-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+    align-items: center;
+    justify-content: center; /* Centre les éléments verticalement */
+
+    padding: 20px; /* Ajoute un espacement intérieur */
+    background-color: #f8f9fa; /* Couleur de fond pour mieux voir le formulaire */
+    border-radius: 8px; /* Coins arrondis pour le conteneur */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Largeur fixe pour le formulaire */
+    
+}
+
+
+body {
+    margin: 0; /* Enlève les marges par défaut */
+    display: flex; /* Utilise flexbox pour centrer le contenu */
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    background-color: #f8f9fa; /* Couleur de fond pour toute la page */
 }
 
 .form-group {
-    display: flex;
+    /* display: flex;
     flex-direction: row;
-    align-items: center;
-    margin-bottom: 15px; /* Espace entre les champs */
+    align-items: center; */
+    margin-bottom: 30px; /* Espace entre les champs */
     width: 100%; /* S'assurer que le groupe de formulaire prend toute la largeur */
 }
 
-.form-label {
-    margin-right: 10px; /* Espace entre le label et l'input */
-    font-weight: bold; /* Optionnel : pour mettre le label en gras */
+.form-input {
+    width: 100%; /* Assure que chaque champ de saisie occupe toute la largeur */
+    border-radius: 5px; /* Coins arrondis pour les champs d'entrée */
+    padding: 10px; /* Ajoute un espacement intérieur pour un meilleur confort */
+    border: 1px solid #ccc; /* Bordure grise légère */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
 
-input {
-    border-radius: 8px; /* Arrondir les coins */
-    border: 1px solid #ccc; /* Couleur de la bordure */
-    padding: 10px; /* Espacement intérieur */
-    width: 100%; /* Pour que les inputs prennent toute la largeur de leur conteneur */
-    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+.btn {
+    width: 100%; /* Assure que le bouton occupe toute la largeur */
+    border-radius: 5px; /* Coins arrondis pour le bouton */
+    padding: 10px; /* Ajoute un espacement intérieur pour le bouton */
 }
-
