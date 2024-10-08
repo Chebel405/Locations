@@ -5,7 +5,6 @@ import './AddClient.css';
 
 
 
-
 function AddClient({ addClient }) {
     /* État local pour stocker les données du client*/
     const [clientData, setClientData] = useState({

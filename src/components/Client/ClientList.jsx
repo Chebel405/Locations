@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import EditClient from "./EditClient";
 
 function ClientList({ clientList, deleteClient, modifyClient }) {
+
     return clientList.length ? (
         <ul>
             {clientList.map(client => (
