@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import './AddClient.css';
+import ClientService from "../../services/ClientService";
 
 
 
@@ -48,23 +49,34 @@ function AddClient({ addClient }) {
      * Ajoute le client à la liste, réinitialise le formulaire, 
      * puis redirige vers la page de la liste des clients.
      */
-    function handleAddClient() {
-        addClient(
-            clientData.name,
-            clientData.lastName,
-            clientData.birthday,
-            clientData.email,
-            clientData.phone
-        );
-        setClientData({
-            name: '',
-            lastName: '',
-            birthday: '',
-            email: '',
-            phone: ''
-        });
-        navigate('/clients');
-    }
+    const handleAddClient = async (e) => {
+        e.preventDefault();
+        console.log("Ajout du client avec les données : ", clientData); // Debug
+        try {
+            const response = await ClientService.addClient(clientData);
+            console.log('Client ajouté avec succès', response);
+
+            addClient(
+                clientData.name,
+                clientData.lastName,
+                clientData.birthday,
+                clientData.email,
+                clientData.phone
+            );
+            setClientData({
+                name: '',
+                lastName: '',
+                birthday: '',
+                email: '',
+                phone: ''
+            });
+            navigate('/clients');
+        } catch (error) {
+            console.error('Erreur lors de l’ajout du client:', error);
+        }
+
+
+    };
 
 
     return (

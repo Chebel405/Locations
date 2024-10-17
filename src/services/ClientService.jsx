@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'https://jsonplaceholder.typicode.com/users';
+const API_URL = 'http://localhost:8080/clients';
+
 
 class ClientService {
 
@@ -18,7 +19,18 @@ class ClientService {
      * @returns {Promise} - Le client ajouté
      */
     addClient(clientData) {
-        return axios.post(API_URL, clientData);
+        console.log('Données envoyées au backend :', clientData); // Ajoute cette ligne pour déboguer
+        return axios.post(API_URL, clientData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(response => {
+            console.log('Réponse du backend:', response.data);
+            return response.data;
+        }).catch(error => {
+            console.error('Erreur lors de l ajout du client: ', error);
+            throw error;
+        });
     }
 
     /**
