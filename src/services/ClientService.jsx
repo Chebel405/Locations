@@ -6,18 +6,18 @@ const API_URL = 'http://localhost:8080/clients';
 class ClientService {
 
     /**
-     * Récupère la liste de tous les clients
-     * @returns {Promise} - Liste des clients
+     * Récupère la liste de tous les clients depuis le backend
+     * @returns {Promise} - Liste des clients sous forme de réponse HTTP
      */
     getClients() {
         return axios.get(API_URL);
     }
 
     /**
-     * Ajouter un nouveau client
-     * @param {Objet} clientData - Les données du client à ajouter
-     * @returns {Promise} - Le client ajouté
-     */
+    * Ajouter un nouveau client dans la base de données
+    * @param {Object} clientData - Les données du client à ajouter
+    * @returns {Promise} - Réponse du backend avec le client ajouté
+    */
     addClient(clientData) {
         console.log('Données envoyées au backend :', clientData); // Ajoute cette ligne pour déboguer
         return axios.post(API_URL, clientData, {
@@ -34,10 +34,10 @@ class ClientService {
     }
 
     /**
-     * Modifier un client existant
+     * Modifier un client existant dans la base de données
      * @param {number} id - L'ID du client à modifier  
-     * @param {Objet} clientData - Les nouvelles données du client 
-     * @returns {Promise} - Le client modifié
+     * @param {Object} clientData - Les nouvelles données du client à mettre à jour
+     * @returns {Promise} - Réponse HTTP avec le client mis à jour
      */
     updateClient(id, clientData) {
         return axios.put(`${API_URL}/${id}`, clientData, {
@@ -48,18 +48,18 @@ class ClientService {
     }
 
     /**
-     * Supprimer un client existant
-     * @param {number} id - L'Id du client à supprimer 
-     * @returns {Promise} - Le statut de la suppression
+     * Supprimer un client existant de la base de données
+     * @param {number} id - L'ID du client à supprimer
+     * @returns {Promise} - Réponse HTTP confirmant la suppression
      */
     deleteClient(id) {
         return axios.delete(`${API_URL}/${id}`);
     }
 
     /**
-     * Récupère les détails d'un client spécifique
-     * @param {number} id - L'Id du client à récupérer 
-     * @returns {Promise} - Détails du client
+     * Récupère les détails d'un client spécifique depuis la base de données
+     * @param {number} id - L'ID du client à récupérer
+     * @returns {Promise} - Réponse HTTP contenant les détails du client
      */
     getClientById(id) {
         return axios.get(`${API_URL}/${id}`);
