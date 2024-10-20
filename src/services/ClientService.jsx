@@ -40,7 +40,11 @@ class ClientService {
      * @returns {Promise} - Le client modifié
      */
     updateClient(id, clientData) {
-        return axios.put(`${API_URL}/${id}`, clientData);
+        return axios.put(`${API_URL}/${id}`, clientData, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
     }
 
     /**

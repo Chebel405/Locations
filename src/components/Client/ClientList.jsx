@@ -14,19 +14,23 @@ function ClientList({ clientList, deleteClient, modifyClient }) {
                         cancelClient={() => modifyClient(client.id, { edit: false })}
                         editClient={(newData) => modifyClient(client.id, { ...newData, edit: false })} />
                 ) : (
-                    <ClientItem
-                        key={client.id}
-                        client={client}
-                        deleteClient={() => deleteClient(client.id)}
-                        modifyClient={() => modifyClient(client.id, { edit: true })}
-                    />
+                    client.name && client.lastName && client.birthday && client.email && client.phone ? (
+                        <ClientItem
+                            key={client.id}
+                            client={client}
+                            deleteClient={() => deleteClient(client.id)}
+                            modifyClient={() => modifyClient(client.id, { edit: true })}
+                        />
+                    ) : (
+                        <p key={client.id}>Client avec données incomplètes</p>
+                    )
                 )
-            )
-            )}
+            ))}
         </ul>
     ) : (
         <p>Aucun client pour le moment</p>
     )
+
 
 
 }
@@ -35,11 +39,11 @@ ClientList.propTypes = {
     clientList: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            lastName: PropTypes.string.isRequired,
-            birthday: PropTypes.string.isRequired,
-            email: PropTypes.string.isRequired,
-            phone: PropTypes.string.isRequired,
+            name: PropTypes.string,
+            lastName: PropTypes.string,
+            birthday: PropTypes.string,
+            email: PropTypes.string,
+            phone: PropTypes.string,
         })
     ).isRequired,
     deleteClient: PropTypes.func.isRequired,
