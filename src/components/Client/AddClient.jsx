@@ -55,14 +55,6 @@ function AddClient({ addClient }) {
         try {
             const response = await ClientService.addClient(clientData);
             console.log('Client ajouté avec succès', response);
-
-            addClient(
-                clientData.name,
-                clientData.lastName,
-                clientData.birthday,
-                clientData.email,
-                clientData.phone
-            );
             setClientData({
                 name: '',
                 lastName: '',
