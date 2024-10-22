@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  */
 function ClientItem({ client, deleteClient, modifyClient }) {
     return (
-        <li className="d-flex flex-row justify-content-center align-items-center p-10">
+        <div className="d-flex flex-row justify-content-center align-items-center p-10">
             <p className='flex-fill mr-15'>Nom : {client.name || "Nom manquant"}</p>
             <p className='flex-fill mr-15'>Prénom : {client.lastName || "Prénom manquant"}</p>
             <p className='flex-fill mr-15'>Date de Naissance : {client.birthday || "Date de naissance manquante"}</p>
@@ -19,7 +19,7 @@ function ClientItem({ client, deleteClient, modifyClient }) {
             <p className='flex-fill mr-15'>Téléphone : {client.phone || "Téléphone manquant"}</p>
             <button className="btn btn-primary mr-15" onClick={() => modifyClient(client.id)}>Modifier</button>
             <button className="btn btn-reverse-primary mr-15" onClick={() => deleteClient(client.id)}>Supprimer</button>
-        </li>
+        </div>
     )
 
 }
