@@ -25,11 +25,10 @@ function AddClient({ addClient }) {
      */
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(e);
-        setClientData({
-            ...clientData,
+        setClientData((prevData) => ({
+            ...prevData,
             [name]: value
-        });
+        }));
     }
 
     /**
@@ -50,11 +49,21 @@ function AddClient({ addClient }) {
      * puis redirige vers la page de la liste des clients.
      */
     const handleAddClient = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
+
+        if (!clientData.name || !clientData.lastName || !clientData.email) {
+            console.error("Veuillez remplir tous les champs obligatoires.");
+            alert("Les champs 'Nom', 'Prénom' et 'Email' sont obligatoires.");
+            return;
+        }
+
         console.log("Ajout du client avec les données : ", clientData); // Debug
+
         try {
             const response = await ClientService.addClient(clientData);
             console.log('Client ajouté avec succès', response);
+
+
             setClientData({
                 name: '',
                 lastName: '',
@@ -62,6 +71,7 @@ function AddClient({ addClient }) {
                 email: '',
                 phone: ''
             });
+
             navigate('/clients');
         } catch (error) {
             console.error('Erreur lors de l’ajout du client:', error);
@@ -73,65 +83,24 @@ function AddClient({ addClient }) {
 
     return (
         <div className="d-flex flex-column align-items-start form-container ">
-            <div className="form-group">
-                <input
-                    type="text"
-                    name="name"
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    value={clientData.name}
-                    placeholder="Nom"
-                    className="mr-15 form-input"
-                />
-            </div>
-            <div className="form-group">
-
-                <input
-                    type="text"
-                    name="lastName"
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    value={clientData.lastName}
-                    placeholder="Prenom"
-                    className="mr-15 form-input"
-                />
-            </div>
-            <div className="form-group">
-
-                <input
-                    type="date"
-                    name="birthday"
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    value={clientData.birthday}
-                    placeholder="Date de naissance"
-                    className="mr-15 form-input"
-                />
-            </div>
-            <div className="form-group">
-
-                <input
-                    type="email"
-                    name="email"
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    value={clientData.email}
-                    placeholder="Mail"
-                    className="mr-15 form-input"
-                />
-            </div>
-            <div className="form-group">
-
-                <input
-                    type="text"
-                    name="phone"
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    value={clientData.phone}
-                    placeholder="Téléphone"
-                    className="mr-15 form-input"
-                />
-            </div>
+            {['name', 'lastName', 'birthday', 'email', 'phone'].map((field) => (
+                <div className="form-group" key={field}>
+                    <input
+                        type={field === 'birthday' ? 'date' : field === 'email' ? 'email' : 'text'}
+                        name={field}
+                        value={clientData[field]}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        placeholder={
+                            field === 'name' ? 'Nom' :
+                                field === 'lastName' ? 'Prénom' :
+                                    field === 'birthday' ? 'Date de naissance' :
+                                        field === 'email' ? 'Email' : 'Téléphone'
+                        }
+                        className="mr-15 form-input"
+                    />
+                </div>
+            ))}
 
             {/* Bouton pour ajouter le client avec les données saisies */}
             <button

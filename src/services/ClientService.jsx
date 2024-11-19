@@ -40,10 +40,26 @@ class ClientService {
      * @returns {Promise} - Réponse HTTP avec le client mis à jour
      */
     updateClient(id, clientData) {
-        return axios.put(`${API_URL}/${id}`, clientData, {
+        const formattedData = {
+            name: clientData.name,
+            lastName: clientData.lastName,
+            email: clientData.email,
+            phone: clientData.phone,
+            // Ajoutez d'autres champs si nécessaire
+        };
+        console.log("Données envoyées :", formattedData);
+        console.log("URL :", `http://localhost:8080/clients/${id}`);
+
+        return axios.put(`${API_URL}/${id}`, formattedData, {
             headers: {
                 'Content-Type': 'application/json',
             }
+        }).then(response => {
+            console.log('Réponse du backend:', response.data);
+            return response.data;
+        }).catch(error => {
+            console.error('Erreur lors de la mise à jour du client:', error);
+            throw error;
         });
     }
 
