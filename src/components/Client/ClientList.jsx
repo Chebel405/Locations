@@ -2,27 +2,36 @@ import ClientItem from "./ClientItem";
 import PropTypes from 'prop-types';
 import EditClient from "./EditClient";
 
+
 function ClientList({ clientList, deleteClient, modifyClient }) {
     const rows = [];
     for (let i = 0; i < clientList.length; i += 3) {
         rows.push(clientList.slice(i, i + 3));
     }
 
+    function handleModifyClient(id, client) {
+        console.log("Données envoyées à modifyClient depuis ClientList :", client);
+        modifyClient(id, client);
+    }
+
     return clientList.length ? (
         <div>
             {rows.map((row, rowIndex) => (
-                <div key={rowIndex} className="client-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <div key={`row-${rowIndex}`} className="client-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
                     {row.map((client, clientIndex) => (
                         client.edit ? (
                             <EditClient
-                                key={client.id}
+                                key={`edit-${client.id}`}
                                 client={client}
-                                cancelClient={() => modifyClient(client.id, { edit: false })}
-                                editClient={(newData) => modifyClient(client.id, { ...newData, edit: false })} />
+                                cancelClient={() => handleModifyClient(client.id, client)}
+                                editClient={(newData) => {
+                                    handleModifyClient(client.id, { ...newData, edit: false });
+                                }
+                                } />
                         ) : (
                             client.name && client.lastName && client.birthday && client.email && client.phone ? (
                                 <div
-                                    key={client.id}
+                                    key={`client-${client.id || clientIndex}`}
                                     style={{
                                         flex: '1',
                                         minWidth: '250px',
@@ -34,6 +43,7 @@ function ClientList({ clientList, deleteClient, modifyClient }) {
                                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                                         marginRight: clientIndex < row.length - 1 ? '20px' : '0', // Espace entre les colonnes, sauf pour la dernière
                                     }}>
+
                                     <ClientItem
                                         client={client}
                                         deleteClient={() => deleteClient(client.id)}
@@ -41,7 +51,7 @@ function ClientList({ clientList, deleteClient, modifyClient }) {
                                     />
                                 </div>
                             ) : (
-                                <p key={client.id}>Client avec données incomplètes</p>
+                                <p key={`incomplete-${client.id}`}>Client avec données incomplètes</p>
                             )
                         )
                     ))}

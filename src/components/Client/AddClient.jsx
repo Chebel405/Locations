@@ -51,7 +51,7 @@ function AddClient({ addClient }) {
     const handleAddClient = async (e) => {
         if (e) e.preventDefault();
 
-        if (!clientData.name || !clientData.lastName || !clientData.email) {
+        if (!clientData.name || !clientData.lastName || !clientData.birthday || !clientData.email || !clientData.phone) {
             console.error("Veuillez remplir tous les champs obligatoires.");
             alert("Les champs 'Nom', 'Prénom' et 'Email' sont obligatoires.");
             return;

@@ -14,11 +14,17 @@ function App() {
   useEffect(() => {
     ClientService.getClients()
       .then(response => {
+
+        console.log("Données brutes reçues depuis le backend :", response.data);
+
+
         // Transformation des données des clients pour que les IDs soient des chaînes de caractères
         const clients = response.data.map(c => ({
           ...c,
           id: c.id.toString()
         }));
+
+        console.log("Données transformées avant mise à jour de l'état :", clients);
         // Mise à jour de l'état avec la liste des clients
         setClientList(clients);
       })
@@ -46,7 +52,7 @@ function App() {
       edit: false
     };
 
-
+    console.log("Nouveau client à ajouter :", client);
     // Envoi du client au backend et rechargement de la liste des clients
     ClientService.addClient(client)
       .then(() => {
@@ -57,6 +63,7 @@ function App() {
           ...c,
           id: c.id.toString()
         }));
+        console.log("Liste des clients après ajout :", clients);
         setClientList(clients); // Mise à jour de la liste des clients
       })
       .catch(error => {
@@ -88,21 +95,50 @@ function App() {
      * - Envoie les nouvelles données du client au backend via ClientService.updateClient
      * - Met à jour la liste des clients avec les nouvelles informations
      */
-  function modifyClient(id, newClient) {
-    console.log('Modifications envoyées pour le client:', newClient);
-    ClientService.updateClient(id, newClient)
-      .then(() => {
-        setClientList(
-          clientList.map(client => client.id === id ? { ...client, ...newClient } : client
-          )
-        );
-      })
-      .catch(error => {
-        console.error("Erreur lors de la modification du client:", error)
-      })
+  // function modifyClient(id, newClient) {
+  //   console.log('--- Début de modifyClient ---');
+  //   console.log('ID du client à modifier :', id);
+  //   console.log('Données envoyées pour modification :', newClient);
 
+  //   // console.log('Modifications envoyées pour le client:', newClient);
+  //   if (!newClient.name || !newClient.lastName || !newClient.birthday || !newClient.email || !newClient.phone) {
+  //     console.error("Les données envoyées à modifyClient sont incomplètes :", newClient);
+  //     return;
+  //   }
 
+  //   ClientService.updateClient(id, newClient)
+  //     .then(() => {
+  //       setClientList(
+  //         clientList.map(client =>
+  //           client.id === id ? { ...client, ...newClient } : client
+  //         )
+  //       );
+  //     })
+  //     .catch(error => {
+  //       console.error("Erreur lors de la modification du client:", error)
+  //     })
+  // }
+  function modifyClient(id, updatedClient) {
+
+    console.log("ID du client à modifier :", id);
+    console.log("Données mises à jour pour le client :", updatedClient);
+
+    const clientIndex = clientList.findIndex(client => client.id === id);
+    if (clientIndex === -1) {
+      console.error("Client introuvable ! avec l'ID :", id);
+      return;
+    }
+
+    // Mise à jour des données dans la liste
+    const newClientList = [...clientList];
+    newClientList[clientIndex] = updatedClient;
+
+    console.log("Nouvelle liste des clients après modification :", newClientList);
+    // Mise à jour de l'état ou envoi au backend
+    setClientList(newClientList);
+    // Ou appeler une API avec ClientService.updateClient(id, updatedClient)
   }
+
 
   return (
     <Router>
@@ -114,6 +150,7 @@ function App() {
 
         <Routes>
           <Route path="/add-client" element={<AddClient addClient={addClient} />} />
+
           <Route path="/clients" element={
             <ClientList clientList={clientList} deleteClient={deleteClient} modifyClient={modifyClient} />
           } />

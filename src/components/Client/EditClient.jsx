@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
+import ClientService from "../../services/ClientService";
 
 
 function EditClient({ client, editClient, cancelClient }) {
     /* État local pour stocker les données du client à modifier*/
     const [clientData, setClientData] = useState({
-        name: '',
-        lastName: '',
-        birthday: '',
-        email: '',
-        phone: ''
+        name: "",
+        lastName: "",
+        birthday: "",
+        email: "",
+        phone: ""
     });
 
 
@@ -19,13 +20,14 @@ function EditClient({ client, editClient, cancelClient }) {
      *  l'objet client change.
      */
     useEffect(() => {
-        if (client) {
+        if (client && Object.keys(client).length > 0) {
+            console.log("Client recu par EditClient: ", client);
             setClientData({
-                name: client.name || '',
-                lastName: client.lastName || '',
-                birthday: client.birthday || '',
-                email: client.email || '',
-                phone: client.phone || ''
+                name: client.name || "",
+                lastName: client.lastName || "",
+                birthday: client.birthday || "",
+                email: client.email || "",
+                phone: client.phone || ""
             })
         }
     }, [client]);
@@ -35,11 +37,23 @@ function EditClient({ client, editClient, cancelClient }) {
     * Met à jour l'état avec les nouvelles valeurs saisies dans les champs d'input.
     * @param {Object} e - L'événement de changement sur l'input.
     */
+    // function handleChange(e) {
+    //     const { name, value } = e.target;
+    //     setClientData({
+    //         ...clientData,
+    //         [name]: value
+    //     });
+    // }
+
     function handleChange(e) {
         const { name, value } = e.target;
-        setClientData({
-            ...clientData,
-            [name]: value
+        console.log(`Modification détectée - Champ: ${name}, Valeur: ${value}`); // Debug
+        setClientData(prevState => {
+            console.log("État précédent :", prevState); // Affiche l'état avant la modification
+            const updatedState = { ...prevState, [name]: value };
+
+            console.log("Nouvel état :", updatedState); // Affiche l'état après la modification
+            return updatedState;
         });
     }
 
@@ -59,14 +73,23 @@ function EditClient({ client, editClient, cancelClient }) {
      * Applique les modifications faites sur le client en appelant la fonction editClient avec les nouvelles données.
      */
     function handleEditClient() {
-        editClient(clientData);
-        setClientData({
-            name: "",
-            lastName: "",
-            birthday: "",
-            email: "",
-            phone: "",
-        });
+        if (!clientData.name || !clientData.lastName || !clientData.email) {
+            alert("Veuillez remplir les champs obligatoires (Nom, Prénom, Email).");
+            return;
+        }
+
+        const formattedData = {
+            ...clientData,
+            name: clientData.name.trim(),
+            lastName: clientData.lastName.trim(),
+            birthday: clientData.birthday.trim(),
+            email: clientData.email.trim(),
+            phone: clientData.phone.trim() || null,
+        };
+
+        console.log("Données à envoyer depuis EditClient :", formattedData);
+        editClient(formattedData);
+
     }
 
 

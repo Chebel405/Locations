@@ -3,6 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080/clients';
 
 
+
 class ClientService {
 
     /**
@@ -43,9 +44,9 @@ class ClientService {
         const formattedData = {
             name: clientData.name,
             lastName: clientData.lastName,
+            birthday: clientData.birthday,
             email: clientData.email,
             phone: clientData.phone,
-            // Ajoutez d'autres champs si nécessaire
         };
         console.log("Données envoyées :", formattedData);
         console.log("URL :", `http://localhost:8080/clients/${id}`);

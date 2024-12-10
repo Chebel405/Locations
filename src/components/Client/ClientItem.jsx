@@ -10,6 +10,19 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element} Un élément de liste représentant un client.
  */
 function ClientItem({ client, deleteClient, modifyClient }) {
+
+
+    const handleModifyClick = () => {
+        console.log("Props du client avant modification :", client);
+        console.log("ID envoyé :", client.id);
+
+        // Ajout de la propriété 'edit: true' pour signaler une modification
+        const updatedClient = { ...client, edit: true };
+
+        console.log("Données envoyées :", updatedClient); // Vérification des données envoyées
+
+        modifyClient(client.id, { ...client, edit: true }); // Appel avec les données mises à jour
+    };
     return (
         <div className="d-flex flex-row justify-content-center align-items-center p-10">
             <p className='flex-fill mr-15'>Nom : {client.name || "Nom manquant"}</p>
@@ -17,7 +30,8 @@ function ClientItem({ client, deleteClient, modifyClient }) {
             <p className='flex-fill mr-15'>Date de Naissance : {client.birthday || "Date de naissance manquante"}</p>
             <p className='flex-fill mr-15'>Email : {client.email || "email manquant"}</p>
             <p className='flex-fill mr-15'>Téléphone : {client.phone || "Téléphone manquant"}</p>
-            <button className="btn btn-primary mr-15" onClick={() => modifyClient(client.id)}>Modifier</button>
+
+            <button className="btn btn-primary mr-15" onClick={handleModifyClick}>Modifier</button>
             <button className="btn btn-reverse-primary mr-15" onClick={() => deleteClient(client.id)}>Supprimer</button>
         </div>
     )
