@@ -32,6 +32,7 @@ class ClientService {
             console.error('Erreur lors de l ajout du client: ', error);
             throw error;
         });
+
     }
 
     /**

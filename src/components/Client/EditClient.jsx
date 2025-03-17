@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import ClientService from "../../services/ClientService";
+
 
 
 function EditClient({ client, editClient, cancelClient }) {
+    console.log("Le composant EditClient est monté !");
+
+    console.log("Client reçu par EditClient AVANT useEffect :", client);
+
     /* État local pour stocker les données du client à modifier*/
     const [clientData, setClientData] = useState({
         name: "",
@@ -20,6 +24,8 @@ function EditClient({ client, editClient, cancelClient }) {
      *  l'objet client change.
      */
     useEffect(() => {
+        console.log("🔄 EditClient monté ou mis à jour !");
+        console.log("🔄 Le composant EditClient a été recréé !");
         if (client && Object.keys(client).length > 0) {
             console.log("Client recu par EditClient: ", client);
             setClientData({
@@ -30,6 +36,7 @@ function EditClient({ client, editClient, cancelClient }) {
                 phone: client.phone || ""
             })
         }
+        console.log("useEffect exécuté !");
     }, [client]);
 
 
@@ -37,13 +44,6 @@ function EditClient({ client, editClient, cancelClient }) {
     * Met à jour l'état avec les nouvelles valeurs saisies dans les champs d'input.
     * @param {Object} e - L'événement de changement sur l'input.
     */
-    // function handleChange(e) {
-    //     const { name, value } = e.target;
-    //     setClientData({
-    //         ...clientData,
-    //         [name]: value
-    //     });
-    // }
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -72,7 +72,10 @@ function EditClient({ client, editClient, cancelClient }) {
     /**
      * Applique les modifications faites sur le client en appelant la fonction editClient avec les nouvelles données.
      */
-    function handleEditClient() {
+    function handleEditClient(event) {
+
+        if (event) event.preventDefault();
+        console.log("handleEditClient appelé !");
         if (!clientData.name || !clientData.lastName || !clientData.email) {
             alert("Veuillez remplir les champs obligatoires (Nom, Prénom, Email).");
             return;
@@ -89,8 +92,8 @@ function EditClient({ client, editClient, cancelClient }) {
 
         console.log("Données à envoyer depuis EditClient :", formattedData);
         editClient(formattedData);
-
     }
+
 
 
     /**
@@ -172,6 +175,7 @@ function EditClient({ client, editClient, cancelClient }) {
             </button>
 
             <button
+                type="button"
                 onClick={handleEditClient}
                 className="btn btn-primary"
             >

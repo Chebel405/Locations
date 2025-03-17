@@ -40,35 +40,21 @@ function App() {
    * - Envoie le client au backend via ClientService.addClient
    * - Recharge la liste des clients pour afficher le nouveau client
    */
-  function addClient(name, lastName, birthday, email, phone) {
-    const client = {
-      id: crypto.randomUUID(),
-      name,
-      lastName,
-      birthday,
-      email,
-      phone,
-      done: false,
-      edit: false
-    };
+  async function addClient(name, lastName, birthday, email, phone) {
+    const client = { name, lastName, birthday, email, phone };
 
     console.log("Nouveau client à ajouter :", client);
-    // Envoi du client au backend et rechargement de la liste des clients
-    ClientService.addClient(client)
-      .then(() => {
-        return ClientService.getClients(); // Recharge la liste des clients depuis le backend
-      })
-      .then(response => {
-        const clients = response.data.map(c => ({
-          ...c,
-          id: c.id.toString()
-        }));
-        console.log("Liste des clients après ajout :", clients);
-        setClientList(clients); // Mise à jour de la liste des clients
-      })
-      .catch(error => {
-        console.error("Erreur lors de l'ajout du client : ", error);
-      })
+
+    try {
+      const response = await ClientService.addClient(client);
+      console.log("Réponse du backend après ajout :", response.data);
+
+      // Ajouter le client reçu du backend à la liste sans recharger toute la liste
+      setClientList(prevList => [...prevList, response.data]);
+
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du client :", error);
+    }
 
   }
 
@@ -77,67 +63,51 @@ function App() {
    * - Envoie une requête au backend pour supprimer le client via ClientService.deleteClient
    * - Mets à jour la liste des clients localement en supprimant le client
    */
-  function deleteClient(id) {
-    ClientService.deleteClient(id)
-      .then(() => {
-        // Supprime le client de la liste en filtrant par ID
-        setClientList(clientList.filter(client => client.id !== id));
-        console.log("Client supprimé avec succès du backend et du frontend");
-      })
-      .catch(error => {
-        console.error("Erreur lors de la suppression du client dans le backend: ", error);
-      });
+  async function deleteClient(id) {
+    try {
+      await ClientService.deleteClient(id);
+      setClientList(prevList => prevList.filter(client => client.id !== id));
+      console.log("Client supprimé avec succès");
+    } catch (error) {
+      console.error("Erreur lors de la suppression du client :", error);
+    }
 
   }
 
-  /**
-     * Fonction pour modifier un client
-     * - Envoie les nouvelles données du client au backend via ClientService.updateClient
-     * - Met à jour la liste des clients avec les nouvelles informations
-     */
-  // function modifyClient(id, newClient) {
-  //   console.log('--- Début de modifyClient ---');
-  //   console.log('ID du client à modifier :', id);
-  //   console.log('Données envoyées pour modification :', newClient);
 
-  //   // console.log('Modifications envoyées pour le client:', newClient);
-  //   if (!newClient.name || !newClient.lastName || !newClient.birthday || !newClient.email || !newClient.phone) {
-  //     console.error("Les données envoyées à modifyClient sont incomplètes :", newClient);
-  //     return;
-  //   }
-
-  //   ClientService.updateClient(id, newClient)
-  //     .then(() => {
-  //       setClientList(
-  //         clientList.map(client =>
-  //           client.id === id ? { ...client, ...newClient } : client
-  //         )
-  //       );
-  //     })
-  //     .catch(error => {
-  //       console.error("Erreur lors de la modification du client:", error)
-  //     })
-  // }
-  function modifyClient(id, updatedClient) {
-
+  async function modifyClient(id, updatedClient) {
     console.log("ID du client à modifier :", id);
     console.log("Données mises à jour pour le client :", updatedClient);
 
-    const clientIndex = clientList.findIndex(client => client.id === id);
-    if (clientIndex === -1) {
-      console.error("Client introuvable ! avec l'ID :", id);
-      return;
+    try {
+      // Trouver le client existant
+      const clientToUpdate = clientList.find(client => client.id === id);
+      if (!clientToUpdate) {
+        console.error("Client introuvable !");
+        return;
+      }
+
+      // Fusionner les nouvelles données avec l'ancien client
+      const clientData = { ...clientToUpdate, ...updatedClient };
+
+      console.log("Données finales envoyées au backend :", clientData);
+
+      const response = await ClientService.updateClient(id, updatedClient);
+      console.log("Réponse du backend :", response);
+
+      // Mise à jour correcte de la liste des clients
+      setClientList(prevList =>
+        prevList.map(client =>
+          client.id === id ? { ...client, ...updatedClient } : client
+        )
+      );
+
+      console.log("Client modifié avec succès :", updatedClient);
+    } catch (error) {
+      console.error("Erreur lors de la modification du client :", error);
     }
-
-    // Mise à jour des données dans la liste
-    const newClientList = [...clientList];
-    newClientList[clientIndex] = updatedClient;
-
-    console.log("Nouvelle liste des clients après modification :", newClientList);
-    // Mise à jour de l'état ou envoi au backend
-    setClientList(newClientList);
-    // Ou appeler une API avec ClientService.updateClient(id, updatedClient)
   }
+
 
 
   return (

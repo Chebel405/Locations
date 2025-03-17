@@ -2,8 +2,9 @@ import ClientItem from "./ClientItem";
 import PropTypes from 'prop-types';
 import EditClient from "./EditClient";
 
-
 function ClientList({ clientList, deleteClient, modifyClient }) {
+    console.log("ClientList mis à jour :", clientList); // Vérifier si la liste se met à jour
+
     const rows = [];
     for (let i = 0; i < clientList.length; i += 3) {
         rows.push(clientList.slice(i, i + 3));
@@ -23,11 +24,12 @@ function ClientList({ clientList, deleteClient, modifyClient }) {
                             <EditClient
                                 key={`edit-${client.id}`}
                                 client={client}
-                                cancelClient={() => handleModifyClient(client.id, client)}
+                                cancelClient={() => handleModifyClient(client.id, { ...client, edit: false })}
                                 editClient={(newData) => {
+                                    console.log("Modification appliquée :", newData);
                                     handleModifyClient(client.id, { ...newData, edit: false });
-                                }
-                                } />
+                                }}
+                            />
                         ) : (
                             client.name && client.lastName && client.birthday && client.email && client.phone ? (
                                 <div
@@ -41,14 +43,14 @@ function ClientList({ clientList, deleteClient, modifyClient }) {
                                         border: '1px solid #ccc',
                                         borderRadius: '8px',
                                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                                        marginRight: clientIndex < row.length - 1 ? '20px' : '0', // Espace entre les colonnes, sauf pour la dernière
+                                        marginRight: clientIndex < row.length - 1 ? '20px' : '0',
                                     }}>
-
                                     <ClientItem
                                         client={client}
                                         deleteClient={() => deleteClient(client.id)}
-                                        modifyClient={() => modifyClient(client.id, { edit: true })}
+                                        modifyClient={(id, updatedClient) => modifyClient(id, updatedClient)}
                                     />
+
                                 </div>
                             ) : (
                                 <p key={`incomplete-${client.id}`}>Client avec données incomplètes</p>
@@ -72,6 +74,7 @@ ClientList.propTypes = {
             birthday: PropTypes.string,
             email: PropTypes.string,
             phone: PropTypes.string,
+            edit: PropTypes.bool, // Ajout de l'attribut edit
         })
     ).isRequired,
     deleteClient: PropTypes.func.isRequired,

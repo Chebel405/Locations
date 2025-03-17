@@ -13,15 +13,8 @@ function ClientItem({ client, deleteClient, modifyClient }) {
 
 
     const handleModifyClick = () => {
-        console.log("Props du client avant modification :", client);
         console.log("ID envoyé :", client.id);
-
-        // Ajout de la propriété 'edit: true' pour signaler une modification
-        const updatedClient = { ...client, edit: true };
-
-        console.log("Données envoyées :", updatedClient); // Vérification des données envoyées
-
-        modifyClient(client.id, { ...client, edit: true }); // Appel avec les données mises à jour
+        modifyClient(client.id, { ...client, edit: true });
     };
     return (
         <div className="d-flex flex-row justify-content-center align-items-center p-10">

@@ -72,11 +72,14 @@ function AddClient({ addClient }) {
                 phone: ''
             });
 
-            navigate('/clients');
+            await ClientService.addClient(clientData);
+            window.location.reload(); // Recharge la page pour voir les nouveaux clients
+
+            addClient(response); // Met à jour la liste dans le composant parent
+
         } catch (error) {
             console.error('Erreur lors de l’ajout du client:', error);
         }
-
 
     };
 
