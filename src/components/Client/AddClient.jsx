@@ -49,10 +49,10 @@ function AddClient({ addClient }) {
      * puis redirige vers la page de la liste des clients.
      */
     const handleAddClient = async (e) => {
-        if (e) e.preventDefault();
-
+        e.preventDefault();
+        //console.log("handleAddClient exécuté !");
         if (!clientData.name || !clientData.lastName || !clientData.birthday || !clientData.email || !clientData.phone) {
-            console.error("Veuillez remplir tous les champs obligatoires.");
+            //console.error("Veuillez remplir tous les champs obligatoires.");
             alert("Les champs 'Nom', 'Prénom' et 'Email' sont obligatoires.");
             return;
         }
@@ -61,8 +61,10 @@ function AddClient({ addClient }) {
 
         try {
             const response = await ClientService.addClient(clientData);
-            console.log('Client ajouté avec succès', response);
+            console.log('Client ajouté avec succès', response.data);
 
+            // Mise à jour de la liste des clients
+            addClient(response.data);
 
             setClientData({
                 name: '',
@@ -71,14 +73,15 @@ function AddClient({ addClient }) {
                 email: '',
                 phone: ''
             });
+            // Redirection vers la liste des clients sans recharger la page
+            navigate("/clients");
 
-            await ClientService.addClient(clientData);
-            window.location.reload(); // Recharge la page pour voir les nouveaux clients
-
-            addClient(response); // Met à jour la liste dans le composant parent
+            //  addClient(response); // Met à jour la liste dans le composant parent
+            //window.location.reload(); // Recharge la page pour voir les nouveaux clients
 
         } catch (error) {
             console.error('Erreur lors de l’ajout du client:', error);
+            alert("Une erreur est survenue lors de l'ajout du client.");
         }
 
     };

@@ -20,7 +20,9 @@ class ClientService {
     * @returns {Promise} - Réponse du backend avec le client ajouté
     */
     addClient(clientData) {
+        console.log("handleAddClient exécuté !");
         console.log('Données envoyées au backend :', clientData); // Ajoute cette ligne pour déboguer
+        console.log('Données reçues en entrée pour ajout :', clientData);
         return axios.post(API_URL, clientData, {
             headers: {
                 'Content-Type': 'application/json',

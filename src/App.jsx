@@ -40,13 +40,12 @@ function App() {
    * - Envoie le client au backend via ClientService.addClient
    * - Recharge la liste des clients pour afficher le nouveau client
    */
-  async function addClient(name, lastName, birthday, email, phone) {
-    const client = { name, lastName, birthday, email, phone };
+  async function addClient(newClient) {
 
-    console.log("Nouveau client à ajouter :", client);
+    console.log("Nouveau client à ajouter :", newClient);
 
     try {
-      const response = await ClientService.addClient(client);
+      const response = await ClientService.addClient(newClient);
       console.log("Réponse du backend après ajout :", response.data);
 
       // Ajouter le client reçu du backend à la liste sans recharger toute la liste
